@@ -1,0 +1,82 @@
+/* CSS Document */
+* html img, * html .png {
+	behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",  this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",  this.src = "blank.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("', '').replace('")', ''),  this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",  this.runtimeStyle.backgroundImage = "none")), this.pngSet=true)  );
+}
+.clearfix:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {
+	height: 1%;
+}
+/* End hide from IE-mac */
+html {
+	height:100%;
+}
+body {
+	background-color:#d0cecf;
+	margin:0px;
+	padding:0px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+form, input, p, div, label, h1, h2, h3, h4, h5, h6, h7, select {
+	/*color: #585858;*/
+	font-family:Arial, Helvetica, sans-serif;
+	margin: 0px;
+	padding: 0px;
+}
+p {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+a {
+	color:#5c5c5c;
+	text-decoration:none;
+}
+a:hover {
+	color:#fea338;
+	text-decoration:underline;
+}
+/*
+* HTML Tags
+*/
+h1 {
+	font-size:20px;
+	font-weight:normal;
+	color:#ab0101;
+	margin:0px 0px 5px 0px;
+	padding:0px;
+}
+h2 {
+	font-size:18px;
+	color:#3a3939;
+	font-weight:bold;
+	margin:0px;
+	padding:0px;
+}
+h3 {
+	font-size:18px;
+	color:#fff;
+	font-weight:bold;
+	margin:8px 4px 8px 8px;
+	padding:0px;
+}
+h4 {
+	font-size:16px;
+	color:#3a3939;!important;
+	font-weight:bold;
+	margin:8px 4px 8px 8px;
+	padding:0px;
+}
+h5 {
+	font-size:15px;
+	color:#747474;
+	font-weight:bold;
+	margin:4px 4px 4px 4px;
+	padding:0px;
+}

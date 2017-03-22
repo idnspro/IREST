@@ -1,0 +1,1 @@
+<p style="margin-top:40px;">Copyright © <?php echo date("Y"); ?> wdelivered.com - Online Food Delivery System</p>
