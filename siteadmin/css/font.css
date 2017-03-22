@@ -1,0 +1,83 @@
+.font10 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+.font11 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 11px;
+}
+.font12 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.font14 {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+.blue12arial {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #357bdc;
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration:none;
+}
+
+.black12arial {
+	font-family: Arial, Helvetica, sans-serif;
+	color:#333333;
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration:none;
+}
+
+.links {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #357bdc;
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration:none;
+}
+.links a:link{color:#357bdc; text-decoration:none;} 
+.links a:visited{color:#357bdc; text-decoration:none;}
+.links a:hover{color:#FF0000; text-decoration:underline;}	
+
+.pink16arial {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #de4184;
+	font-size: 16px;
+	font-weight:bold;
+}
+
+.yellow-text {
+	color:#f9ee01;
+}
+
+.pink12 {
+	font-family: Helvetica, Arial, sans-serif;
+	color: #de4184;
+	font-size: 12px;
+	font-weight:bold;
+}
+
+.red {
+	color:#FF0000;
+}
+
+.green {
+	color:#239a03;
+	text-decoration:underline;
+}
+
+.error {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #BF0000;
+	font-size: 12px;
+}
+.pink14arial {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #de4184;
+	line-height:22px;
+	font-size: 14px;
+	font-weight:bold;
+}

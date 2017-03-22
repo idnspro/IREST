@@ -1,0 +1,648 @@
+/*
+* Genral
+*/
+form {
+  padding: 20px;
+  font-family: Arial, Helvetica, Sans-serif;
+  font-size: 1.05em;
+}
+fieldset {
+  padding: 0 10px 10px;
+  margin: 0 0 10px;
+  border: 1px solid #CCCCCC;
+}
+legend {
+  color: #ab0101;
+  background-color: #EEEEEE;
+  font-family: Arial, Helvetica, Sans-serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 5px;
+  margin-bottom: 0;
+  width: 9em;
+  border: 1px solid #CCCCCC;
+}
+legend.noarea {
+  color: #ab0101;
+  background-color: #EEEEEE;
+  padding:5px;
+  margin-bottom: 0;
+  width: 12em;
+  border: 1px solid #CCCCCC;
+}
+label {
+  display: block;
+  float: left;
+  clear: left;
+  text-align: right;
+  width: 20%;
+  padding-top: 0.25em;
+  margin: 1.5em 5px 0 0;
+}
+input {
+	width:300px;
+	height:18px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+
+.fixed2 {
+	float: left;
+	width: 30px;
+	position: relative;
+	bottom: 2em;
+	left: 9em;
+}
+.fixed3 {
+	float: left;
+	width: 30px;
+	position: relative;
+	bottom: 2em;
+	left: 6em;
+}
+.fixed4 {
+	float: left;
+	width: 30px;
+	position: relative;
+	bottom: 2em;
+	left: 11.5em;
+}
+
+select {
+	width:300px;
+	height:18px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+}
+
+
+input:focus, select:focus {
+  border: 1px solid #333333;
+}
+input.inpuTxt110 {
+	width:110px;
+	height:28px !important;
+	padding:0px;
+	margin:0px 0px 25px 0px;
+	border: 1px solid #9F9F9F;
+	background: #FFFFFF;
+	vertical-align:middle;
+}
+.checkbox, .radio {
+	height: 13px;
+	width: 13px;
+	cursor:default;
+}
+
+/*---- For Button : Start Here ----*/
+.button-grey {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align:center;
+	vertical-align: middle;
+	text-decoration:none;
+	margin-right:.5em;
+	color: #666;
+	border:none;
+	width:auto;
+	height:30px;
+	background-color:#2978a3;
+	background-image: -moz-linear-gradient(top, #e7e7e7, #dcdcdc);
+	border-radius:3px;
+	-o-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 10px 5px 10px;
+	cursor:pointer;
+}
+
+.button-blue {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align:center;
+	vertical-align: middle;
+	margin-right:.5em;
+	color: #fff;
+	border:none;
+	width:auto;
+	height:30px;
+	background-color:#357bdc;
+	background-image: -moz-linear-gradient(top, #357bdc, #357bdc);
+	border-radius:3px;
+	-o-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 10px 5px 10px;
+	cursor:pointer;
+}
+
+.button-red {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align:center;
+	vertical-align: middle;
+	margin-right:.5em;
+	color: #fff;
+	border:none;
+	width:auto;
+	height:30px;
+	background-color:#ab0101;
+	background-image: -moz-linear-gradient(top, #ab0101, #ab0101);
+	border-radius:3px;
+	-o-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 10px 5px 10px;
+	cursor:pointer;
+}
+
+
+.button85x30-grey {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align:center;
+	vertical-align: middle;
+	text-decoration:none;
+	margin-right:.5em;
+	color: #666;
+	border:none;
+	width:85px;
+	height:30px;
+	background-color:#2978a3;
+	background-image: -moz-linear-gradient(top, #e7e7e7, #dcdcdc);
+	border-radius:3px;
+	-o-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 10px 5px 10px;
+	cursor:pointer;
+}
+
+.button85x30-blue {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align:center;
+	vertical-align: middle;
+	margin-right:.5em;
+	color: #fff;
+	border:none;
+	width:85px;
+	height:30px;
+	background-color:#357bdc;
+	background-image: -moz-linear-gradient(top, #357bdc, #357bdc);
+	border-radius:3px;
+	-o-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 10px 5px 10px;
+	cursor:pointer;
+}
+
+.button85x30-red {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.2em;
+	font-weight: bold;
+	text-align:center;
+	vertical-align: middle;
+	margin-right:.5em;
+	color: #fff;
+	border:none;
+	width:85px;
+	height:30px;
+	background-color:#ab0101;
+	background-image: -moz-linear-gradient(top, #ab0101, #ab0101);
+	border-radius:3px;
+	-o-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 10px 5px 10px;
+	cursor:pointer;
+}
+/*---- For Button : End Here ----*/
+
+
+/*
+* Input: Start Here
+*/
+input.inpuTxt260 {
+	height: 17px;
+	width: 240px;
+	border: 1px solid #9F9F9F;
+	padding-top:2px;
+	padding-left:2px;
+	background: #FFFFFF;
+	vertical-align:baseline;
+}
+input.txtBox75 {
+	width:75px;
+	height:20px;
+	padding-top:2px;
+	padding-left:2px;
+	margin-top:3px;
+	margin-bottom:10px;
+	border:1px solid #c6c7c9;
+	color: #333;
+}
+input.inpuTxt {
+	height: 30px;
+	width: 240px;
+	border: 1px solid #9F9F9F;
+	background: #FFFFFF;
+	vertical-align:baseline;
+}
+input.inpuTxt215{
+	width:215px;
+	height:18px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+input.inpuTxt300 {
+	width:250px;
+	height:28px !important;
+	padding:0px;
+	margin:0px;
+	border: 1px solid #9F9F9F;
+	background: #FFFFFF;
+	vertical-align:middle;
+}
+input.inpuTxt250 {
+	width:250px;
+	height:28px !important;
+	padding:0px;
+	margin:0px 0px 25px 0px;
+	border: 1px solid #9F9F9F;
+	background: #FFFFFF;
+	vertical-align:middle;
+}
+body:first-of-type input.inpuTxt260 {
+	height: 12px;
+	width: 240px;
+	border: 1px solid #9F9F9F;
+	padding-top:8px;
+	padding-left:2px;
+	background: #FFFFFF;
+	vertical-align:baseline;
+}
+/*
+* Input: End Here
+*/
+
+/*
+* Select: Start Here
+*/
+select.select216 {
+	margin-bottom:15px;
+	width: 312px;
+	height:29px;
+}
+select.select60 {
+	width:60px;
+	height:29px;
+}
+select.select80 {
+	width:80px;
+	height:29px;
+}
+select.select250 {
+	margin-bottom:15px;
+	width: 250px;
+	height:29px;
+}
+body:first-of-type select.select216 {
+	margin-bottom:15px;
+	margin-left:0px;
+	width: 312px;
+}
+
+select.select310 {
+	width:311px;
+	height:30px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+body:first-of-type select.select310 {
+	width:311px;
+	height:30px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+select.select80 {
+	width:80px;
+	height:30px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+
+select.multiple {
+	width:300px;
+	height:100px;
+	margin: 1em 0 0 0;
+	padding:5px;
+	border:1px solid #CCCCCC;
+}
+/*
+* Select: End Here
+*/
+/*
+* textarea: Start Here
+*/
+textarea.Textarea280 {
+	height: 110px;
+	width: 270px;
+	border: 1px solid #9F9F9F;
+	margin: 0px;
+	padding: 2px 2px 0px;
+	background: #FFFFFF;
+}
+textarea.textarea240 {
+	height: 80px;
+	width: 245px;
+	border: 1px solid #9F9F9F;
+	margin: 0px;
+	padding: 2px 2px 0px;
+	background: #FFFFFF;
+}
+textarea.textArea450 {
+	height: 17px;
+	width: 450px;
+	height:150px;
+	border: 1px solid #9F9F9F;
+	padding-top:2px;
+	padding-left:2px;
+	background: #FFFFFF;
+	vertical-align:baseline;
+}
+textarea.txtarea_540x300 {
+	height: 300px;
+	width: 540px;
+	border: 1px solid #9F9F9F;
+	margin: 0px;
+	padding: 2px 2px 0px;
+	background: #FFFFFF;
+	line-height:18px;
+}
+/*
+* textarea: End Here
+*/
+
+input.inpuTxt260 {
+	height: 17px;
+	width: 240px;
+	border: 1px solid #9F9F9F;
+	padding-top:2px;
+	padding-left:2px;
+	background: #FFFFFF;
+	vertical-align:baseline;
+}
+input.inpuTxt155 {
+	height: 17px;
+	width: 155px;
+	border: 1px solid #9F9F9F;
+	padding-left:2px;
+	background: #FFFFFF;
+	vertical-align:baseline;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+input.inpuTxt125 {
+	height: 17px;
+	width: 128px;
+	border: 1px solid #9F9F9F;
+	padding-top:2px;
+	padding-left:2px;
+	background: #FFFFFF;
+	vertical-align:baseline;
+	background:url(../../images/input-bg.gif) repeat-x;
+}
+input.inpuTxt55 {
+	height: 17px;
+	width:10px;
+	
+}
+
+.title-search input {
+	width:150px;
+	background:url(../../images/input-bg.gif) repeat-x;
+	height:23px;
+	padding:3px 0px 0px 3px;
+	border:1px solid #CCCCCC;
+	float:right;
+}
+select.PricesDate {
+	width: 3.7em;
+	margin-right: 0.05em;
+	letter-spacing: -1px;
+	height:29px;
+}
+select.PricesDays {
+	width: 4.8em;
+	letter-spacing: -1px;
+	height:29px;
+}
+/* added 25 Mar 2011*/
+table.eventForm{
+	border-collapse:collapse;
+	}
+table.eventForm td{
+	border:1px solid #bdbdbd;
+	}
+table.eventForm td table td{
+	border:0px solid #bdbdbd;
+	}
+table.eventForm td.header{
+	background:#585858;
+	color:#FFFFFF;
+	padding:12px 15px 8px;
+	font-weight:bold;
+	}
+table.eventForm td.admleftBg{
+	background:#f5f5f5;
+	padding:8px;
+	font-weight:bold;
+	}
+
+.dash25 {
+	background: url(../../images/dash.gif) repeat-x;
+	color:#666666;
+}
+.adjust_form {
+    margin:0px; 
+	padding:0px; 
+	margin-top:12px;
+}
+.add_form {
+    margin-left:165px;
+	margin-top:20px;"
+}
+.distribute {
+    float:right; 
+	margin-right:200px;
+}
+.dark3{
+	background-color:#bfca0c;
+	height:20px;
+	padding:5px 0px 5px 10px;
+	color:#FFFFFF;
+	font-weight:bold;
+	width:600px;
+}
+.topp {
+    background: url(../../images/poptop.png) repeat-x;
+	text-align:left;
+	vertical-align:top;
+	height:10px
+}
+.leftp {
+	width:10px;
+	background: url(../../images/popleft.png) repeat-y;
+	text-align:left;
+	vertical-align:top;
+	height:100%
+}
+.rightp {
+background: url(../../images/popright2.png) repeat-y;
+	vertical-align:top;
+	text-align:left;
+	height:100%
+}
+.bottomp {
+	height:10px;
+	background: url(../../images/popbtm.png) repeat-x;
+	text-align:left;
+	vertical-align:top
+}
+/*
+css for the  google map added to 18-May-2011: start here
+*/
+input.fixed {
+	height: 30px;
+	width: 150px;
+	border: 1px solid #9F9F9F;
+	background: #FFFFFF;
+	vertical-align:baseline;
+}
+
+#area{
+	width:100%;
+	height:40px;
+}
+
+/*
+css for the  google map added to 18-May-2011: start here
+*/
+.text {
+	width: 200px;
+	width: 150px;
+	margin-left: 1em;
+	position: relative;
+	top: 0.8em;
+}
+.zone {
+	float: left;
+	width: 50px;
+	position: relative;
+	left: 4.5em;
+	bottom: 2.3em;
+}
+.zone1 {
+	float: left;
+	width: 50px;
+	position: relative;
+	left: 13em;
+	bottom: 2.3em;
+}
+.zone2 {
+	float: left;
+	width: 50px;
+	position: relative;
+	left: 13em;
+	bottom: 2.3em;
+}
+.zone3 {
+	float: left;
+	width: 50px;
+	position: relative;
+	left: 28.5em;
+	bottom: 1.8em;
+}
+
+
+.options {
+	float: left;
+	width: 30px;
+	position: relative;
+	left: 14em;
+	bottom:1.2em;
+	height:20px;
+	
+}
+
+.options select   {
+	width: 30px;
+	height:30px;
+	
+}
+
+
+
+.zone_input {
+	float: left;
+	width: 20px;
+	position: relative;
+	left: 15em;
+	bottom: 2.5em;
+}
+.zone1_input {
+	float: left;
+	width: 20px;
+	position: relative;
+	left: 15em;
+	bottom: 2.5em;
+}
+
+.zone1_input input {
+	width: 30px;
+}
+.zone2_input {
+	float: left;
+	width: 20px;
+	position: relative;
+	left: 25.8em;
+	bottom: 2.5em;
+}
+
+.zone2_input input {
+	width: 30px;
+}
+.zone_input1 {
+	float: left;
+	width: 20px;
+	position: relative;
+	left: 15em;
+	bottom: 2.5em;
+}
+.zone1_input {
+	float: left;
+	width: 20px;
+	position: relative;
+	left: 20.5em;
+	bottom: 2.5em;
+}
+
+.zone_input input {
+	width: 30px;
+}
+
+
+#area  .fixed2 input {
+	width: 90px;
+}
