@@ -74,13 +74,55 @@
 		</div>
 		<div class="col-md-6 restaurant-grids">
 			<div class="restaurant-grid  wow fadeInLeft" data-wow-delay="0.4s">
-				<h5>About <?php echo $rest_name; ?></h5>
 				<?php
-				$restObj->fun_getViewRestaurantCustomerReview($rest_id);
+				// For Google Map
+				if ( ! empty( $rest_latitude ) && ! empty( $rest_longitude ) && ! empty( $rest_map_zoom_level ) ) {
+				?>
+				<div id="map" style="overflow:hidden;width:100%;height:364px;border:1px solid #999999;"></div>
+				<div class="clearfix"></div>
+				<script>
+					var map;
+					var strlatitude = <?php echo $rest_latitude; ?>;;
+					var strlongitude = <?php echo $rest_longitude; ?>;
+					var zoomLevel = <?php echo $rest_map_zoom_level; ?>;
+					var image = new google.maps.MarkerImage('<?php echo SITE_IMAGES;?>markers/marker.png', new google.maps.Size(20, 34), new google.maps.Point(0,0), new google.maps.Point(0,32));
+					var shadow = new google.maps.MarkerImage('<?php echo SITE_IMAGES;?>markers/shadow.png', new google.maps.Size(37, 32), new google.maps.Point(0,0), new google.maps.Point(0, 32));
+					function initMap() {
+						var Latlng = {lat: strlatitude, lng: strlongitude};
+						var map = new google.maps.Map(document.getElementById('map'), {
+							zoom: zoomLevel,
+							center: Latlng,
+							mapTypeId: google.maps.MapTypeId.ROADMAP
+						});
+						var marker = new google.maps.Marker({
+							position: Latlng,
+							map: map,
+							shadow: shadow,
+							icon: image,
+
+						});
+					}
+				</script>
+				<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFDOhwKxKihkT7_kPrQbMuR78gwj6U3S0&callback=initMap"></script>
+				<?php
+				}
+				?>
+				<?php
 				echo '<hr>';
-				echo $page_discription;
+				$restObj->fun_getViewRestaurantCustomerReview($rest_id);
 				?>
 			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+</div>
+<div class="restaurant-section-desc">
+	<div class="container">
+		<div class="wow bounceInLeft" data-wow-delay="0.4s">
+			<?php
+			echo $page_discription;
+			echo '<hr>';
+			?>
 		</div>
 		<div class="clearfix"></div>
 	</div>
