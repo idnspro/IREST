@@ -1,7 +1,7 @@
 <div class="container">
 	<div class="top-header">
 		<div class="logo">
-			<a href="<?php echo SITE_URL; ?>" title="<?php if(isset($sitetitle) && $sitetitle !=""){echo $sitetitle;} else {echo "Online Food Ordering System ...";}?>"><img src="<?php echo SITE_IMAGES;?>logo.png" class="img-responsive" alt="<?php if(isset($sitetitle) && $sitetitle !=""){echo $sitetitle;}?>" /></a>
+			<a href="<?php echo SITE_URL; ?>" title="<?php if ( ! empty( $sitetitle ) ) { echo $sitetitle; } else { echo SITE_GLOBAL_LOGO_TITLE; } ?>"><img src="<?php echo SITE_IMAGES;?>logo.png" class="img-responsive" alt="<?php if ( ! empty( $sitetitle ) ) {echo $sitetitle;} else { echo SITE_GLOBAL_LOGO_NAME; } ?>" /></a>
 		</div>
 		<div class="queries">
 			<p>Questions? Call us Toll-free!<span>1800-0000-7777 </span><label>(11AM to 11PM)</label></p>
