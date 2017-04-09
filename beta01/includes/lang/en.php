@@ -1,14 +1,55 @@
 <?php
-//
-// Technical information
-//
-$lang['auther_name'] 	= "IDNS Team"; // Translator's name
-$lang['auther_email'] 	= "support@idns-technologies.com"; // Translator's email
-$lang['charset'] 		= "ISO-8859-1"; // language file charset (utf-8 by default)
-$lang['text_dir'] 		= "ltr"; // ('ltr' for left to right, 'rtl' for right to left)
-$lang['lang_iso'] 		= "en"; // iso language code
-$lang['lang_lable'] 	= "English"; // english language name
+/*
+* Do not copy, cite, or distribute without permission of the author.
+*/
 
+/*
+ _______________________
+| Technical information
+| Copyright 2017, IDNSPro
+| { This file contains static translation text in array called $lang }
+|_______________________
+
+*/
+
+$lang['AUTHOR_NAME']  = 'IDNS Team';
+$lang['AUTHOR_EMAIL'] = 'support@idns-technologies.com';
+$lang['CHARSET'] = 'UTF-8';
+$lang['TEXT_DIR'] = 'ltr'; // ('ltr' for left to right, 'rtl' for right to left)
+$lang['LANG_ISO'] = 'en'; // iso language code
+$lang['LANG_LABEL'] = 'English';
+
+// GLOBAL
+$lang['SITE_GLOBAL_TITLE'] = 'Online Food Ordering System';
+$lang['SITE_GLOBAL_KEYWORDS'] = 'Online Food Ordering System';
+$lang['SITE_GLOBAL_DESCRIPTION'] = 'Online Food Ordering System';
+$lang['SITE_GLOBAL_LOGO_NAME'] = 'Online Food Ordering System';
+$lang['SITE_GLOBAL_LOGO_TITLE'] = 'Online Food Ordering System';
+//$lang['SITE_GLOBAL_LOGO_TITLE'] = 'Online Food Ordering System';
+
+// FRONTEND- HOME
+
+
+// FRONTEND- STATIC CONTENT PAGE
+
+
+// FRONTEND- LISTING PAGE
+
+// FRONTEND- DETAIL PAGE
+
+
+// FRONTEND- ORDER PAGE
+
+
+// FRONTEND- GUEST USER PAGE
+
+
+// FRONTEND- REGISTERED USER PAGE
+
+
+// FRONTEND- MANAGER PAGE
+
+/*
 // Main menu & submenu
 $lang['menu_home']= "Home";//Search
 
@@ -70,9 +111,7 @@ $lang['most_popular'] = "Most Popular";//Most Popular
 $lang['newest'] = "Newest";//Newest
 $lang['top_rated'] = "Top Rated";//Top Rated
 $lang['min_order'] = "Min Order";//Min Order
-
-
-
+*/
 
 // Dates
 /*
@@ -85,7 +124,7 @@ $lang['min_order'] = "Min Order";//Min Order
 %yearlong% // 2004
 %yearshort% // 04
 */
-
+/*
 // Monday February 10 2004
 $lang['tdate1'] = "%daylong% %monthlong% %daynumeric% %yearlong%";
 
@@ -189,4 +228,5 @@ $lang['weekdays']['Thu'] = '4';
 $lang['weekdays']['Fri'] = '5';
 $lang['weekdays']['Sat'] = '6';
 $lang['weekdays']['Sun'] = '7';
+*/
 ?>

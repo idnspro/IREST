@@ -54,6 +54,12 @@ define( 'SITE_INFO_EMAIL', 'info@domain.com' );
 define( 'DEFAULT_CURRENCY', '4' );
 define( 'GLOBAL_RECORDS_PER_PAGE', 10 );
 define( 'EMAIL_ID_REG_EXP_PATTERN', '/^[^\W][a-zA-Z0-9\_\-\.]+(\.[a-zA-Z0-9\_\-\.]+)*\@[a-zA-Z0-9\_\-]+(\.[a-zA-Z0-9\_\-]+)*\.[a-zA-Z]{2,4}$/' );
+if( file_exists( SITE_INCLUDES_PATH . '/lang/en.php' ) ) {
+	require_once( SITE_INCLUDES_PATH . '/lang/en.php' );
+	foreach( $lang as $k => $v ) {
+		define( $k, $v );		
+	}
+}
 
 //require_once( $_SERVER['DOCUMENT_ROOT'] . '/irest/siteadmin/includes/common.php' );
 //require_once( $_SERVER['DOCUMENT_ROOT'] . '/siteadmin/includes/common.php' );
