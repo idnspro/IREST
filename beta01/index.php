@@ -1,28 +1,47 @@
 <?php
-	if($_SERVER["SERVER_NAME"] == "localhost") {
-		require_once($_SERVER["DOCUMENT_ROOT"]."/irest/beta01/includes/application-top.php");
-	} else {
-		require_once($_SERVER["DOCUMENT_ROOT"]."/projects/wdelivered2/beta01/includes/application-top.php");
-	}
+/**
+ * IREST - Online Food Ordering Script
+ *
+ * PHP version 5
+ * 
+ * @category  Front-end
+ * @package   IREST_FRONTEND
+ * @author    IDNS TEAM <support@idns-technologies.com>
+ * @copyright 2016-2017 IDNSPro
+ * @link      http://idns.com
+ * @license   EULA
+ * @version   1.1.0
+ * Do not copy, cite, or distribute without permission of the author.
+ */
 
-	require_once(SITE_CLASSES_PATH."class.Users.php");
-	require_once(SITE_CLASSES_PATH."class.Restaurant.php");
-	require_once(SITE_CLASSES_PATH."class.CMS.php");
+/*
+|--------------------------------------------------------------------------
+| Frontend main page
+|--------------------------------------------------------------------------
+|
+| It is the main file of application
+|
+*/
 
-	$usersObj 		= new Users();
-	$restObj 		= new Restaurant();
-	$cmsObj         = new Cms();
-	// Page details
-	$page_id  				= 1;
-	$pageInfo 				= $cmsObj->fun_getPageInfo($page_id);
-    $page_title 			= fun_db_output($pageInfo['page_title']);
-    $page_content_title 	= fun_db_output($pageInfo['page_content_title']);
-    $page_discription 		= fun_db_output($pageInfo['page_discription']);
-    $seo_title 				= ($pageInfo['page_seo_title']!="")?$pageInfo['page_seo_title']:$seo_title;
-    $seo_keywords 			= ($pageInfo['page_seo_keyword']!="")?$pageInfo['page_seo_keyword']:$seo_keywords;
-    $seo_description 		= ($pageInfo['page_seo_discription']!="")?$pageInfo['page_seo_discription']:$seo_description;
+require_once __DIR__ . '/includes/application-top.php';
+require_once SITE_CLASSES_PATH . 'class.Users.php';
+require_once SITE_CLASSES_PATH . 'class.Restaurant.php';
+require_once SITE_CLASSES_PATH . 'class.CMS.php';
+
+$usersObj = new Users();
+$restObj  = new Restaurant();
+$cmsObj   = new Cms();
+
+// Page details
+$page_id            = 1;
+$pageInfo           = $cmsObj->fun_getPageInfo($page_id);
+$page_title         = fun_db_output($pageInfo['page_title']);
+$page_content_title = fun_db_output($pageInfo['page_content_title']);
+$page_discription   = fun_db_output($pageInfo['page_discription']);
+$seo_title          = ( ! empty($pageInfo['page_seo_title']) ) ? $pageInfo['page_seo_title'] : $seo_title;
+$seo_keywords       = ( ! empty($pageInfo['page_seo_keyword']) ) ? $pageInfo['page_seo_keyword'] : $seo_keywords;
+$seo_description    = ( ! empty($pageInfo['page_seo_discription']) ) ? $pageInfo['page_seo_discription'] : $seo_description;
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,8 +52,9 @@
 <META HTTP-EQUIV="Content-language" CONTENT="<?php echo tranText('lang_iso'); ?>">
 <link rel="icon" type="image/vnd.microsoft.icon" href="<?php echo SITE_URL; ?>favicon.ico" />
 <link rel="SHORTCUT ICON" href="<?php echo SITE_URL; ?>favicon.ico"/>
+<!-- Styles -->
 <link href="<?php echo SITE_CSS_INCLUDES_PATH;?>bootstrap.css" rel='stylesheet' type='text/css' />
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- Scripts -->
 <script src="<?php echo SITE_JS_INCLUDES_PATH;?>jquery.min.js"></script>
 <!-- Custom Theme files -->
 <link href="<?php echo SITE_CSS_INCLUDES_PATH;?>style.css" rel="stylesheet" type="text/css" media="all" />
@@ -48,34 +68,31 @@
 <script src="<?php echo SITE_JS_INCLUDES_PATH;?>wow.min.js"></script>
 <link href="<?php echo SITE_CSS_INCLUDES_PATH;?>animate.css" rel='stylesheet' type='text/css' />
 <script>
-	new WOW().init();
+    new WOW().init();
 </script>
 <script type="text/javascript" src="<?php echo SITE_JS_INCLUDES_PATH;?>move-top.js"></script>
 <script type="text/javascript" src="<?php echo SITE_JS_INCLUDES_PATH;?>easing.js"></script>
 <script type="text/javascript">
-	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event){		
-			event.preventDefault();
-			$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
-		});
-	});
+    jQuery(document).ready(function($) {
+        $(".scroll").click(function(event){        
+            event.preventDefault();
+            $('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+        });
+    });
 </script>
 </head>
 <body>
-    <!-- header-section-starts -->
-	<div class="header">
-        <?php require_once(SITE_INCLUDES_PATH.'header-main.php'); ?>
-	</div>
-	<!-- header-section-ends -->
-	<!-- content-section-starts -->
-	<div class="content">
-        <?php require_once(SITE_INCLUDES_PATH.'mainpage.php'); ?>
-	</div>
-	<!-- content-section-ends -->
-	<!-- footer-section-starts -->
-	<div class="footer">
-        <?php require_once(SITE_INCLUDES_PATH.'footer-main.php'); ?>
-	</div>
-	<!-- footer-section-ends -->
+    <!-- header -->
+    <div class="header">
+    <?php require_once SITE_INCLUDES_PATH . 'header-main.php'; ?>
+    </div>
+    <!-- content -->
+    <div class="content">
+    <?php require_once SITE_INCLUDES_PATH . 'mainpage.php'; ?>
+    </div>
+    <!-- footer -->
+    <div class="footer">
+    <?php require_once SITE_INCLUDES_PATH . 'footer-main.php'; ?>
+    </div>
 </body>
 </html>

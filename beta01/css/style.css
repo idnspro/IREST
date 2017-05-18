@@ -1352,7 +1352,7 @@ i.mail{
 	margin: 0 0 2em 0;
 	line-height: 1.5em;
 }
-.acount-btn {
+.acount-btn, .acount-btn:visited {
 	background: #E24425;
 	color: #FFF;
 	font-size: 1em;
@@ -1383,6 +1383,13 @@ i.mail{
 	text-transform: uppercase;
 }
 .login-right input[type="text"] {
+	border: 1px solid #EEE;
+	outline-color:#fb4d01;
+	width: 96%;
+	font-size:0.8125em;
+	padding: 0.5em;
+}
+.login-right input[type="password"] {
 	border: 1px solid #EEE;
 	outline-color:#fb4d01;
 	width: 96%;
@@ -1524,7 +1531,7 @@ ul.women_pagenation li a:hover{
 .main {
 	background: #F8F8F8;
 }
-.register-top-grid input[type="text"], .register-bottom-grid input[type="text"] {
+.register-top-grid input[type="text"], .register-bottom-grid input[type="text"], .register-bottom-grid input[type="password"]  {
 	border: 1px solid #EEE;
 	outline-color:#FF5B36;
 	width: 96%;
@@ -1833,6 +1840,10 @@ address {
 }
 .follow-us i.google-pluse:hover{
 	background-position:-169px -69px;
+}
+/*--user-page--*/
+.user-page {
+	padding: 2em 0;
 }
 /*--order-page--*/
 .car_wrap {

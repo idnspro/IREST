@@ -15,14 +15,15 @@
 
 /*
 |--------------------------------------------------------------------------
-| Frontend user home page
+| Frontend user profile settings page
 |--------------------------------------------------------------------------
 |
-| It is user home page
+| It is user profile settings page
 |
 */
 
 require_once __DIR__ . '/includes/user-top.php';
+/*
 // Page details
 $page_nofound = true;
 $page_name    = $_GET['name'];
@@ -40,6 +41,49 @@ if(is_array($pageInfo) && !empty($pageInfo)) {
     $seo_description    = ($pageInfo['page_seo_discription']!="")?$pageInfo['page_seo_discription']:$seo_description;
     $page_nofound       = false;
 }
+*/
+//form submission
+$form_array = array();
+$errorMsg 	= "no";
+
+// Edit user : Start here 
+if($_POST['securityKey']==md5(EDITUSER)){	
+    if(trim($_POST['user_fname']) == '') {
+        $form_array['user_fname_error'] = 'First Name required';
+        $errorMsg = 'yes';
+    }
+
+    if(trim($_POST['user_lname']) == '') {
+        $form_array['user_lname_error'] = 'Last Name required';
+        $errorMsg = 'yes';
+    }
+
+    if(trim($_POST['user_fname']) == trim($_POST['user_lname'])) {
+        $form_array['user_fname_error'] = 'First & Last Name is same';
+        $errorMsg = 'yes';
+    }
+
+    if(trim($_POST['user_email']) == '') {
+        $form_array['user_email_error'] = 'Enter valid email address';
+        $errorMsg = 'yes';
+    } else {
+        if(preg_match(EMAIL_ID_REG_EXP_PATTERN, $_POST['user_email'])) {
+            // Check if email already exist
+        } else {
+            $form_array['user_email_error'] = 'Enter valid email address';
+            $errorMsg = 'yes';
+        }
+    }
+    if($errorMsg == 'no' && $errorMsg != 'yes') {
+        $user_id = $_POST['user_id']; // Edit User
+        $usersObj->fun_editUser($user_id);
+        $redirect_url = "profile-settings.php?sec=edit&user_id=".$user_id;
+        redirectURL($redirect_url);
+    } else {
+        $form_array['error_msg'] = "Please submit your form again!";
+    }	
+}
+// Edit user : End here 
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,6 +141,7 @@ if(is_array($pageInfo) && !empty($pageInfo)) {
                     <h2>My homepage</h2>
                     <p class="text-danger">Hi <?php echo ucwords($users_first_name); ?> and welcome to <?php echo $sitetitle; ?>. </p>
                     <p class="text-primary">We've made the site as simple as we can and we're adding new features all the time to help you choose your perfect restaurants. Now you've registered on the site we'll keep you up to date with all the latest developments & news for <?php echo $sitetitle; ?>.</p>
+                    <?php require_once SITE_INCLUDES_PATH . 'profile.php'; ?>
                 </div>
                 <div class="clearfix"> </div>
             </div>

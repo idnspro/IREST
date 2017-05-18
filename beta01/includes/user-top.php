@@ -14,10 +14,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| application-top.php
+| user-top.php
 |--------------------------------------------------------------------------
 |
-| Application setup file, it will be included on every file
+| User setup file, it will be included on every file
 |
 */
 
@@ -89,6 +89,14 @@ require_once( SITE_CLASSES_PATH . 'class.DB.php' );
 require_once( SITE_CLASSES_PATH . 'class.System.php' );
 require_once( SITE_CLASSES_PATH . 'class.Currency.php' );
 require_once( SITE_CLASSES_PATH . 'class.Seo.php' );
+require_once( SITE_CLASSES_PATH . 'class.Users.php' );
+require_once( SITE_CLASSES_PATH . 'class.UserSetting.php' );
+require_once( SITE_CLASSES_PATH . 'class.Restaurant.php' );
+require_once( SITE_CLASSES_PATH . 'class.Pagination.php' );
+require_once( SITE_CLASSES_PATH . 'class.Location.php' );
+require_once( SITE_CLASSES_PATH . 'class.CMS.php' );
+require_once( SITE_CLASSES_PATH . 'class.Email.php' );
+require_once( SITE_CLASSES_PATH . 'class.Cart.php' );
 require_once( SITE_ADMIN_INCLUDES_PATH . 'functions/general.php' );
 require_once( SITE_ADMIN_INCLUDES_PATH . 'functions/form.php' );
 require_once( SITE_ADMIN_INCLUDES_PATH . 'functions/html.php' );
@@ -120,8 +128,22 @@ if ( ! empty( $_SESSION['lang_code'] ) ) {
 $dbObj = new DB();
 $dbObj->fun_db_connect();
 
+$usersObj       = new Users();
+$userSettingObj = new UserSetting();
+$restObj        = new Restaurant();
+$locationObj    = new Location();
+$cmsObj         = new Cms();
+$cartObj        = new Cart();
+
+if(isset($_SESSION['ses_user_id']) && $_SESSION['ses_user_id'] !=""){
+    $user_id = $_SESSION['ses_user_id'];
+} else {
+    $user_id = "";
+    redirectURL("index.php");
+}
+
 // System variables
-$systemObj    = new System();
+$systemObj       = new System();
 $siteInfoArr     = $systemObj->fun_getSiteVariableValue();
 $twitterlink     = ( ! empty( $siteInfoArr[1] ) ) ? $siteInfoArr[1] : 'http://www.twitter.com';
 $facebooklink    = ( ! empty( $siteInfoArr[2] ) ) ? $siteInfoArr[2] : 'http://www.facebook.com';
@@ -149,4 +171,3 @@ $seo_keywords    = ( ! empty( $seoArr['seo_keywords'] ) ) ? $seoArr['seo_keyword
 //Langauge translation
 $display_lang     = $systemObj->fun_getDisplayLang();
 $display_lang_arr = $systemObj->fun_getDisplayLangArr();
-?>
