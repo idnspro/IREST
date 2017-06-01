@@ -15,30 +15,36 @@
 
 /*
 |--------------------------------------------------------------------------
-| Frontend manager restaurant menu page
+| Frontend register 2 page
 |--------------------------------------------------------------------------
 |
-| It is manager restaurant menu page
+| It is register 2 page
 |
 */
 
-require_once __DIR__ . '/includes/manager-top.php';
-// Page details
-$page_nofound = true;
-$page_name    = $_GET['name'];
-$page_name    = str_replace("/", "_", str_replace("-", " ", $page_name));
-$pageInfo     = $cmsObj->fun_getPageInfoByName($page_name);
+require_once __DIR__ . '/includes/application-top.php';
+require_once SITE_CLASSES_PATH . 'class.Users.php';
+require_once SITE_CLASSES_PATH . 'class.UserSetting.php';
+require_once SITE_CLASSES_PATH . 'class.Location.php';
+require_once SITE_CLASSES_PATH . 'class.Email.php';
 
-if(is_array($pageInfo) && !empty($pageInfo)) {
-    $page_id            = $pageInfo['page_id'];
-    $pageInfo           = $cmsObj->fun_getPageInfo($page_id);
-    $page_title         = fun_db_output($pageInfo['page_title']);
-    $page_content_title = fun_db_output($pageInfo['page_content_title']);
-    $page_discription   = fun_db_output($pageInfo['page_discription']);
-    $seo_title          = ($pageInfo['page_seo_title']!="")?$pageInfo['page_seo_title']:$seo_title;
-    $seo_keywords       = ($pageInfo['page_seo_keyword']!="")?$pageInfo['page_seo_keyword']:$seo_keywords;
-    $seo_description    = ($pageInfo['page_seo_discription']!="")?$pageInfo['page_seo_discription']:$seo_description;
-    $page_nofound       = false;
+$usersObj       = new Users();
+$userSettingObj = new UserSetting();
+$locationObj    = new Location();
+
+
+if(isset($_SESSION['ses_user_id']) && $_SESSION['ses_user_id'] !=""){ // login then redirect to its home page
+    redirectURL($_SESSION['ses_user_home']);
+} else {
+    $user_id = "";
+    if(!isset($_SESSION['registraton_id'])) {
+        redirectURL("index.php");
+    }
+}
+if($_POST['securityKey']==md5("NEWREGISTRATION2")){
+    if($usersObj->sendActivationEmailToUser($_POST['user_id'])){
+        redirectURL("register2.php");
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -87,16 +93,25 @@ if(is_array($pageInfo) && !empty($pageInfo)) {
     <?php require_once SITE_INCLUDES_PATH . 'header.php'; ?>
     </div>
     <!-- content -->
-    <div class="content user-section-page">
-        <div class="container">
-            <div class="user-page">
-                <div class="col-md-4 wow fadeInRight" data-wow-delay="0.4s">
-                    <?php require_once SITE_INCLUDES_PATH . 'manager-left-links.php'; ?>
+    <div class="content">
+        <div class="main">
+            <div class="container">
+                <div class="register">
+                    <div><span class="text-danger">Thanks ...</span> you're almost there!<br /><br />You will shortly receive a confirmation email. Just click on the link to confirm your email address</div>
+                    <div>
+                        <form action="<?php echo $_SERVER['PHP_SELF'];?>" method="POST" name="frmUserRegister" id="frmUserRegister">
+                            <input type="hidden" name="securityKey" id="securityKey" value="<?php echo md5(NEWREGISTRATION2);?>">
+                            <input type="hidden" name="user_id" id="user_id_id" value="<?php echo $_SESSION['registraton_id']; ?>">
+                            <input type="hidden" name="user_pass" id="user_pass_id" value="<?php echo $_SESSION['registraton_pass']; ?>">
+                            <span class="text-success">If you don't receive the email</span>
+                            <br />
+                            <span>The confirmation email should be with you in a few minutes. If it isn't then check your <strong>JUNK MAIL</strong> folder or <strong>SPAM</strong> folders. Failing that add <?php echo SITE_ADMIN_EMAIL;?> to your Email Address Book or Safe Sender list and click the Resend Email button below. <br /><br />It's useful to do this anyway to ensure future emails from us arrive in your inbox.</span>
+                            <br />
+                            <br />
+                            <input type="submit" value="Resend now" class="btn btn-success col-md-3" />
+                        </form>
+                    </div>
                 </div>
-                <div class="col-md-8 wow fadeInLeft" data-wow-delay="0.4s">
-                    <?php require_once SITE_INCLUDES_PATH . 'menus.php'; ?>
-                </div>
-                <div class="clearfix"> </div>
             </div>
         </div>
     </div>

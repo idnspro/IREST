@@ -16,7 +16,7 @@
             <ul>
                 <li class="active"><a href="<?php echo SITE_URL; ?>" class="scroll">Home</a></li>|
                 <li><a href="<?php echo SITE_URL.'restaurants.php'; ?>">Top Restaurants</a></li>|
-                <li><a href="<?php echo SITE_URL.'index.php'; ?>">Order</a></li>|
+                <li><a href="<?php echo SITE_URL.'order.php'; ?>">Order</a></li>|
                 <li><a href="<?php echo SITE_URL.'contact.php'; ?>">Contact</a></li>
                 <div class="clearfix"></div>
             </ul>
