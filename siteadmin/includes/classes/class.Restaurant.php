@@ -1901,6 +1901,99 @@ class Restaurant{
 		}
 	}
 
+	//Function to create edit option section for menu
+	function fun_htmlMenuEditOptionView($menu_id) {
+		if($menu_id == ''){
+			return false;
+		} else {
+			$arrAddedOptions 		= array(); // create array of added options
+			$arrAddedOptionValues 	= array(); // create array of added option values
+			$sql 	= "SELECT * FROM " . TABLE_MENU_OPTION_RELATION . " WHERE menu_id='".$menu_id."'";
+			$rs 	= $this->dbObj->createRecordset($sql);
+			if($this->dbObj->getRecordCount($rs) > 0){
+				$arr = $this->dbObj->fetchAssoc($rs);
+				for($i=0; $i < count($arr); $i++) {
+					if(isset($arr[$i]['price']) && $arr[$i]['price'] != "") {
+						array_push($arrAddedOptions, $arr[$i]['option_id']);
+						$arrAddedOptionValues[$arr[$i]['option_id']]= $arr[$i]['price'];
+					}
+				}
+			}
+
+			//Step II: get menu cat id and find option categories 
+			$menu_catid 		= $this->dbObj->getField(TABLE_MENU, "menu_id", $menu_id, "category_id");
+			$sqlMenuOptCat 		= "SELECT A.category_id, A.category_name FROM " . TABLE_MENU_OPTION_CATEGORY . " AS A  WHERE (A.menu_catids='".$menu_catid."') OR (A.menu_catids like '%,".$menu_catid.",%') OR (A.menu_catids like '".$menu_catid.",%') OR (A.menu_catids like '%,".$menu_catid."')";
+			$rsMenuOptCat 		= $this->dbObj->createRecordset($sqlMenuOptCat);
+			if($this->dbObj->getRecordCount($rsMenuOptCat) > 0) {
+				$arrMenuOptCat 	= $this->dbObj->fetchAssoc($rsMenuOptCat);
+				for($counter = 0; $counter < count($arrMenuOptCat); $counter++) {
+					$category_id 	= $arrMenuOptCat[$counter]['category_id'];
+					$category_name 	= $arrMenuOptCat[$counter]['category_name'];
+					$display_type 	= $arrMenuOptCat[$counter]['display_type'];
+				
+					//Step II: create html code for menu options
+					//For Add Extra 
+					//check if this option opted
+					$category_checked 	= false;
+					$sqlchk 			= "SELECT A.option_id, B.category_id  FROM " . TABLE_MENU_OPTION . " AS A
+					INNER JOIN " . TABLE_MENU_OPTION_CATEGORY . " AS B ON B.category_id = A.category_id
+					WHERE A.option_id IN (SELECT option_id  FROM " . TABLE_MENU_OPTION_RELATION . ") AND B.category_id='".$category_id."'";
+					$rschk 				= $this->dbObj->createRecordset($sqlchk);
+					if($this->dbObj->getRecordCount($rschk) > 0){
+						$category_checked 	= true;
+					}
+					
+					echo '<div class="form-group">';
+					echo '<label class="control-label col-sm-3">'.ucwords($category_name).'</label>';
+					echo '<div class="col-sm-9">';
+                                        //echo '<p>';
+					//echo '<label>'.ucwords($category_name).'</label>';
+					if($category_checked == true) {
+						echo '<input type="checkbox" name="options_category[]" id="options_category_id'.$category_id.'" value="'.$category_id.'" checked="checked" style="width:13px; height:13px; margin-top:22px;" /><br />';
+					} else {
+						echo '<input type="checkbox" name="options_category[]" id="options_category_id'.$category_id.'" value="'.$category_id.'" style="width:13px; height:13px; margin-top:22px;" /><br />';
+					}
+					echo '<table class="table table-hover">';
+					echo '<thead>';
+					echo '<tr>';
+					echo '<th class="col-md-1 text-center" align="center">Add</th>';
+					echo '<th class="col-md-4">Options</th>';
+					echo '<th class="col-md-4">Price</th>';
+					echo '</tr>';
+					echo '</thead>';
+					echo '<tbody>';
+					$sql 		= "SELECT A.option_id, A.option_name  FROM " . TABLE_MENU_OPTION . " AS A WHERE A.category_id='".$category_id."'";
+					$rs 		= $this->dbObj->createRecordset($sql);
+					if($this->dbObj->getRecordCount($rs) > 0){
+						$arr 	= $this->dbObj->fetchAssoc($rs);
+						for($j=0; $j < count($arr); $j++) {
+							if(array_search($arr[$j]['option_id'], $arrAddedOptions) === false){
+								echo '<tr>';
+								echo '<td align="center" valign="middle"><input type="checkbox" name="options[]" id="add_extra_id'.$arr[$j]['option_id'].'" value="'.$arr[$j]['option_id'].'" style="width:13px; height:13px;" /></td>';
+								echo '<td align="left" valign="middle">'.ucwords($arr[$j]['option_name']).'</td>';
+								echo '<td align="left" valign="middle"><input type="text" name="options_value['.$arr[$j]['option_id'].']" id="options_value_id'.$arr[$j]['option_id'].'" value="" style="width:45px;" />$</td>';
+								echo '</tr>';
+							} else {
+								echo '<tr>';
+								echo '<td align="center" valign="middle"><input type="checkbox" name="options[]" id="add_extra_id'.$arr[$j]['option_id'].'" value="'.$arr[$j]['option_id'].'" checked="checked" style="width:13px; height:13px;" /></td>';
+								echo '<td align="left" valign="middle">'.ucwords($arr[$j]['option_name']).'</td>';
+								echo '<td align="left" valign="middle"><input type="text" name="options_value['.$arr[$j]['option_id'].']" id="options_value_id'.$arr[$j]['option_id'].'" value="'.$arrAddedOptionValues[$arr[$j]['option_id']].'" style="width:45px;" />$</td>';
+								echo '</tr>';
+							}
+						}
+					}
+					echo '</table>';
+					//echo '</div>';
+					//echo '</p>';
+					//echo '<p style="clear:both;">&nbsp;</p>';
+					echo '</div>';
+					echo '</div>';
+					echo '<br>';
+				}
+			}
+		}
+	}
+
 	//Function to create option section for menu in order page
 	function fun_createMenuOptionView($menu_id) {
 		if($menu_id == ''){
@@ -4678,6 +4771,328 @@ class Restaurant{
 				}
 			}
 		}
+	}
+        //new function 
+	//Function to create cart view for menu page
+	function fun_getCartView($user_id = '') {
+            if($user_id != ''){ // From database
+                $sql = "SELECT * FROM " . TABLE_USER_CART . " WHERE user_id='".$user_id."'";
+                $rs  = $this->dbObj->createRecordset($sql);
+                if($this->dbObj->getRecordCount($rs) > 0){
+                    $arr             = $this->dbObj->fetchAssoc($rs);
+                    $sub_total       = 0;
+                    $tax             = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "tax");
+                    $delivery_charge = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "delivery_charge");
+                    $extra_charge    = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "extra_charge");
+                    if(!is_numeric($tax)) {
+                        $tax             = 0;
+                    }
+                    if(!is_numeric($delivery_charge) || ($_COOKIE['cook_dtype'] =="pickup")) {
+                        $delivery_charge = 0;
+                    }
+                    if(!is_numeric($extra_charge)) {
+                        $extra_charge    = 0;
+                    }
+                    $delivery_type         = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "delivery_type");
+                    $min_order             = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "min_order");
+                    $currencyRateArr       = $this->fun_findCurrencyRate();
+                    $userCurrencyArr       = $this->fun_getUserCurrencyInfo($user_id);
+                    $users_currency_id     = $userCurrencyArr['currency_id'];
+                    $users_currency_code   = $userCurrencyArr['currency_code'];
+                    $users_currency_symbol = $userCurrencyArr['currency_symbol'];
+                    $users_currency_rate   = $userCurrencyArr['currency_rate'];
+                    $users_currency_name   = $userCurrencyArr['currency_name'];
+                    // Restaurant currency info
+                    $currencyArr           = $this->fun_getRestaurantCurrencyInfo($arr[0]['rest_id']);
+                    $rest_currency_id      = $currencyArr['currency_id'];
+                    $rest_currency_code    = $currencyArr['currency_code'];
+                    $rest_currency_symbol  = $currencyArr['currency_symbol'];
+                    $rest_currency_rate    = $currencyArr['currency_rate'];
+                    $rest_currency_name    = $currencyArr['currency_name'];
+                    $currency_symbol       = ($users_currency_symbol == "")?$rest_currency_symbol:$users_currency_symbol;
+                    $currency_code         = ($users_currency_code == "")?$rest_currency_code:$users_currency_code;
+                    //print_r($userCurrencyArr);
+                    //display cart items
+                    //echo 'cook: '.$_COOKIE['cook_dtype'];
+                    echo '<div class="panel panel-default">';
+                    echo '<div class="panel-body">';
+                    echo '<table class="table table-hover">';
+                    echo '<thead>';
+                    echo '<tr>';
+                    echo '<th class="col-md-8">Item</th>';
+                    echo '<th class="col-md-1">Qty</th>';
+                    echo '<th class="col-md-2">Price</th>';
+                    echo '<th class="text-right">Del</th>';
+                    echo '</tr>';
+                    echo '</thead>';
+                    echo '<tbody>';
+                    for($i=0; $i < count($arr); $i++) {
+                        $user_basket_id       = $arr[$i]['user_basket_id'];
+                        $user_id              = $arr[$i]['user_id'];
+                        $product_id           = $arr[$i]['product_id'];
+                        $rest_id              = $arr[$i]['rest_id'];
+                        $user_basket_quantity = $arr[$i]['user_basket_quantity'];
+                        $final_price          = $arr[$i]['final_price'];
+                        $sub_total            = ($sub_total+$final_price);
+                        $comment              = $arr[$i]['comment'];
+                        $menu_name            = $this->dbObj->getField(TABLE_MENU, "menu_id", $product_id, "menu_name");
+                        echo '<tr>';
+                        echo '<td><strong>'.ucwords($menu_name).'</strong></td>';
+                        echo '<td><strong>'.$user_basket_quantity.'</strong></td>';
+                        echo '<td>'.number_format((($final_price/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2).'</td>';
+                        echo '<td><a href="javascript:void(0);" class="del_item" onclick="return del_item('.$user_basket_id.')" title="Delete"> <img src="'.SITE_IMAGES.'icon_x_red.png" alt="Delete" border="0" height="8" width="8"> </a> </td>';
+                        echo '</tr>';
+                        echo '<tr><td colspan="4"><p class="text-center text-danger"><strong>Instructions:</strong> '.$comment.'</p></td></tr>';
+                    }
+                    echo '</tbody>';
+                    echo '<tfoot>';
+                    echo '<tr>';
+                    echo '<td colspan="2">Subtotal:</td>';
+                    echo '<td>'.number_format((($sub_total/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    if(isset($tax) && $tax > 0) {
+                    echo '<tr>';
+                    echo '<td colspan="2">Tax:</td>';
+                    echo '<td>'.number_format((((($sub_total/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code])*$tax)/100), 2).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    }
+                    if((!isset($_COOKIE['cook_dtype']) || $_COOKIE['cook_dtype'] =="delivery") && isset($delivery_type) && $delivery_type == "1") {
+                    echo '<tr>';
+                    echo '<td colspan="2">Delivery Fee:</td>';
+                    echo '<td>'.(($delivery_charge == 0)?'0.00':number_format((($delivery_charge/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2)).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    }
+                    if(isset($extra_charge) && $extra_charge > 0) {
+                    echo '<tr>';
+                    echo '<td colspan="2">Processing Fee:</td>';
+                    echo '<td>'.(($extra_charge == 0)?'0.00':number_format((($extra_charge/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2)).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    }
+                    echo '</tfoot>';
+                    echo '</table>';
+                    echo '<table class="table table-hover">';
+                    echo '<tbody>';
+                    echo '<tr>';
+                    echo '<td class="col-md-9"><strong>Total:</strong></td>';
+                    echo '<td><strong>'.$users_currency_symbol.number_format(((($sub_total+(($sub_total*$tax)/100)+$delivery_charge+$extra_charge)/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2).'</strong></td>';
+                    echo '</tr>';
+                    echo '</tbody>';
+                    echo '</table>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="col-sm-12" id="delivery_order">';
+                    if(isset($delivery_type) && $delivery_type == "1") {
+                        echo '<label class="radio-inline">';
+                        echo '<input name="dtype" id="pickup" value="pickup" onclick="change_dtype(this.value);" '.((isset($_COOKIE['cook_dtype']) && $_COOKIE['cook_dtype'] =="pickup")?' checked="checked"':'').' type="radio" >PICKUP';
+                        echo '</label>';
+                        echo '<label class="radio-inline">';
+                        echo '<input name="dtype" id="delivery" value="delivery" onclick="change_dtype(this.value);" '.((!isset($_COOKIE['cook_dtype']) || $_COOKIE['cook_dtype'] =="delivery")?' checked="checked"':'').' type="radio">DELIVERY';
+                        echo '</label>';
+                    } else {
+                        echo '<label class="radio-inline">';
+                        echo '<input name="dtype" id="pickup" checked="checked" value="pickup" type="radio">PICKUP';
+                        echo '</label>';
+                    }
+                    echo '</div>';
+                    echo '<div  class="col-sm-12" id="max_order"> <span id="small_msg"> The minimum order for delivery is: '.$users_currency_symbol.((isset($min_order) && $min_order !="")?number_format((($min_order/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2):"00.00").' <br>No minimum on Pickup orders </span> </div>';
+                    echo '<div  class="row" id="checkout_btn">';
+                    echo '<p class="text-center">';
+                    if((!isset($_COOKIE['cook_dtype']) || $_COOKIE['cook_dtype'] =="delivery") && (isset($min_order) && number_format((($min_order/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2) > number_format(((($sub_total+(($sub_total*$tax)/100))/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2))) {
+                        echo '<button class="btn btn-danger" type="button">Check Out</button>';
+                    } else {
+                        echo '<a href="'.SITE_URL.'checkout" title="Check Out"><button class="btn btn-danger" type="button" id="checkout_btn">Check Out</button></a>';
+                    }
+                    echo '</p>';
+                    echo '</div>';
+                }
+            } else { // From session
+                if(is_array($_SESSION['cart']) && !empty($_SESSION['cart'])){
+                    //display cart items
+                    $arr             = $_SESSION['cart'];
+                    $sub_total       = 0;
+                    $tax             = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "tax");
+                    $delivery_charge = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "delivery_charge");
+                    $extra_charge    = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "extra_charge");
+                    if(!is_numeric($tax)) {
+                        $tax             = 0;
+                    }
+                    if(!is_numeric($delivery_charge) || ($_COOKIE['cook_dtype'] =="pickup")) {
+                        $delivery_charge = 0;
+                    }
+                    if(!is_numeric($extra_charge)) {
+                        $extra_charge    = 0;
+                    }
+                    $delivery_type         = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "delivery_type");
+                    $min_order             = $this->dbObj->getField(TABLE_RESTAURANT_CONFIGURATION, "rest_id", $arr[0]['rest_id'], "min_order");
+                    $currencyRateArr       = $this->fun_findCurrencyRate();
+                    $userCurrencyArr       = $this->fun_getUserCurrencyInfo();
+                    $users_currency_id     = $userCurrencyArr['currency_id'];
+                    $users_currency_code   = $userCurrencyArr['currency_code'];
+                    $users_currency_symbol = $userCurrencyArr['currency_symbol'];
+                    $users_currency_rate   = $userCurrencyArr['currency_rate'];
+                    $users_currency_name   = $userCurrencyArr['currency_name'];
+                    // Restaurant currency info
+                    $currencyArr           = $this->fun_getRestaurantCurrencyInfo($arr[0]['rest_id']);
+                    $rest_currency_id      = $currencyArr['currency_id'];
+                    $rest_currency_code    = $currencyArr['currency_code'];
+                    $rest_currency_symbol  = $currencyArr['currency_symbol'];
+                    $rest_currency_rate    = $currencyArr['currency_rate'];
+                    $rest_currency_name    = $currencyArr['currency_name'];
+                    $currency_symbol       = ($users_currency_symbol == "")?$rest_currency_symbol:$users_currency_symbol;
+                    $currency_code         = ($users_currency_code == "")?$rest_currency_code:$users_currency_code;
+                    //display cart items
+                    echo '<div class="panel panel-default">';
+                    echo '<div class="panel-body">';
+                    echo '<table class="table table-hover">';
+                    echo '<thead>';
+                    echo '<tr>';
+                    echo '<th class="col-md-8">Item</th>';
+                    echo '<th class="col-md-1">Qty</th>';
+                    echo '<th class="col-md-2">Price</th>';
+                    echo '<th class="text-right">Del</th>';
+                    echo '</tr>';
+                    echo '</thead>';
+                    echo '<tbody>';
+                    for($i=0; $i < count($arr); $i++) {
+                        $item_id              = $arr[$i]['item_id'];
+                        $rest_id              = $arr[$i]['rest_id'];
+                        $menu_id              = $arr[$i]['menu_id'];
+                        $menu_price_id        = $arr[$i]['menu_price_id'];
+                        $quantity             = $arr[$i]['quantity'];
+                        $order_comment        = $arr[$i]['order_comment'];
+                        $options              = $arr[$i]['options'];
+                        $radio_options        = $arr[$i]['radio_options'];
+                        $select_options       = $arr[$i]['select_options'];
+                        if(!isset($menu_price_id) || $menu_price_id =="") {
+                            $menu_price  = $this->dbObj->getField(TABLE_MENU, "menu_id", $menu_id, "base_price");
+                        } else {
+                            $menu_price  = $this->dbObj->getField(TABLE_MENU_PRICE_RELATION, array("menu_id", "price_id"), array($menu_id, $menu_price_id), "price");
+                        }
+                        if($quantity > 1) {
+                            $final_price = ($quantity*$menu_price);
+                        } else {
+                            $final_price = $menu_price;
+                        }
+                        if(is_array($options) && !empty($options)) { // for checkboxes
+                            foreach($options as $key => $value) {
+                                $option_id   = $key;
+                                $addon_price = $this->dbObj->getField(TABLE_MENU_OPTION_RELATION, array("menu_id", "option_id"), array($menu_id, $option_id) , "price");
+                                if(isset($addon_price) && $addon_price !="") {
+                                    if($quantity > 1) {
+                                        $final_price = ($final_price+($quantity*$addon_price));
+                                    } else {
+                                        $final_price = ($final_price+$addon_price);
+                                    }
+                                }
+                            }
+                        }
+                        if(is_array($select_options) && !empty($select_options)) { // for select
+                                foreach($select_options as $key => $value) {
+                                        $option_id 		= $value;
+                                        $addon_price 	= $this->dbObj->getField(TABLE_MENU_OPTION_RELATION, array("menu_id", "option_id"), array($menu_id, $option_id) , "price");
+                                        if(isset($addon_price) && $addon_price !="") {
+                                                if($quantity > 1) {
+                                                        $final_price = ($final_price+($quantity*$addon_price));
+                                                } else {
+                                                        $final_price = ($final_price+$addon_price);
+                                                }
+                                        }
+                                }
+                        }
+                        if(is_array($radio_options) && !empty($radio_options)) { // for radio
+                            foreach($radio_options as $key => $value) {
+                                $option_id   = $value;
+                                $addon_price = $this->dbObj->getField(TABLE_MENU_OPTION_RELATION, array("menu_id", "option_id"), array($menu_id, $option_id) , "price");
+                                if(isset($addon_price) && $addon_price !="") {
+                                    if($quantity > 1) {
+                                        $final_price = ($final_price+($quantity*$addon_price));
+                                    } else {
+                                        $final_price = ($final_price+$addon_price);
+                                    }
+                                }
+                            }
+                        }
+                        $sub_total = ($sub_total+$final_price);
+                        $menu_name = $this->dbObj->getField(TABLE_MENU, "menu_id", $menu_id, "menu_name");
+                        echo '<tr>';
+                        echo '<td><strong>'.ucwords($menu_name).'</strong></td>';
+                        echo '<td><strong>'.$quantity.'</strong></td>';
+                        echo '<td>'.number_format((($final_price/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2).'</td>';
+                        echo '<td><a href="javascript:void(0);" class="del_item" onclick="return ses_del_cart_item(\''.$i.'\')" title="Delete"> <img src="'.SITE_IMAGES.'icon_x_red.png" alt="Delete" border="0" height="8" width="8"> </a> </td>';
+                        echo '</tr>';
+                        echo '<tr><td colspan="4"><p class="text-center text-danger"><strong>Instructions:</strong> '.$order_comment.'</p></td></tr>';
+                    }
+                    echo '</tbody>';
+                    echo '<tfoot>';
+                    echo '<tr>';
+                    echo '<td colspan="2">Subtotal:</td>';
+                    echo '<td>'.number_format((($sub_total/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    if(isset($tax) && $tax > 0) {
+                    echo '<tr>';
+                    echo '<td colspan="2">Tax:</td>';
+                    echo '<td>'.number_format((((($sub_total/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code])*$tax)/100), 2).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    }
+                    if((!isset($_COOKIE['cook_dtype']) || $_COOKIE['cook_dtype'] =="delivery") && isset($delivery_type) && $delivery_type == "1") {
+                    echo '<tr>';
+                    echo '<td colspan="2">Delivery Fee:</td>';
+                    echo '<td>'.(($delivery_charge == 0)?'0.00':number_format((($delivery_charge/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2)).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    }
+                    if(isset($extra_charge) && $extra_charge > 0) {
+                    echo '<tr>';
+                    echo '<td colspan="2">Processing Fee:</td>';
+                    echo '<td>'.(($extra_charge == 0)?'0.00':number_format((($extra_charge/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2)).'</td>';
+                    echo '<td>&nbsp;</td>';
+                    echo '</tr>';
+                    }
+                    echo '</tfoot>';
+                    echo '</table>';
+                    echo '<table class="table table-hover">';
+                    echo '<tbody>';
+                    echo '<tr>';
+                    echo '<td class="col-md-9"><strong>Total:</strong></td>';
+                    echo '<td><strong>'.$users_currency_symbol.number_format(((($sub_total+(($sub_total*$tax)/100)+$delivery_charge+$extra_charge)/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2).'</strong></td>';
+                    echo '</tr>';
+                    echo '</tbody>';
+                    echo '</table>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="col-sm-12" id="delivery_order">';
+                    if(isset($delivery_type) && $delivery_type == "1") {
+                        echo '<label class="radio-inline">';
+                        echo '<input name="dtype" id="pickup" value="pickup" onclick="change_dtype(this.value);" '.((isset($_COOKIE['cook_dtype']) && $_COOKIE['cook_dtype'] =="pickup")?' checked="checked"':'').' type="radio" >PICKUP';
+                        echo '</label>';
+                        echo '<label class="radio-inline">';
+                        echo '<input name="dtype" id="delivery" value="delivery" onclick="change_dtype(this.value);" '.((!isset($_COOKIE['cook_dtype']) || $_COOKIE['cook_dtype'] =="delivery")?' checked="checked"':'').' type="radio">DELIVERY';
+                        echo '</label>';
+                    } else {
+                        echo '<label class="radio-inline">';
+                        echo '<input name="dtype" id="pickup" checked="checked" value="pickup" type="radio">PICKUP';
+                        echo '</label>';
+                    }
+                    echo '</div>';
+                    echo '<div  class="col-sm-12" id="max_order"> <span id="small_msg"> The minimum order for delivery is: '.$users_currency_symbol.((isset($min_order) && $min_order !="")?number_format((($min_order/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2):"00.00").' <br>No minimum on Pickup orders </span> </div>';
+                    echo '<div  class="row" id="checkout_btn">';
+                    echo '<p class="text-center">';
+                    if((!isset($_COOKIE['cook_dtype']) || $_COOKIE['cook_dtype'] =="delivery") && (isset($min_order) && number_format((($min_order/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2) > number_format(((($sub_total+(($sub_total*$tax)/100))/$currencyRateArr[$rest_currency_code])*$currencyRateArr[$users_currency_code]), 2))) {
+                        echo '<button class="btn btn-danger" type="button">Check Out</button>';
+                    } else {
+                        echo '<a href="'.SITE_URL.'checkout" title="Check Out"><button class="btn btn-danger" type="button" id="checkout_btn">Check Out</button></a>';
+                    }
+                    echo '</p>';
+                    echo '</div>';
+
+                }
+            }
 	}
 
 	//Function to create cart view for menu page

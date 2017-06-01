@@ -40,8 +40,7 @@ if(isset($_SESSION['ses_user_id']) && $_SESSION['ses_user_id'] !=""){ // login t
 
 // Form submission
 $form_array = array();
-$errorMsg 	= 'no';
-
+$errorMsg   = 'no';
 if ( $_POST['securityKey'] == md5('NEWREGISTRATION') ) {
     if(trim($_POST['user_fname']) == '') {
         $form_array['user_fname_error'] = 'First Name required';
@@ -94,9 +93,9 @@ if ( $_POST['securityKey'] == md5('NEWREGISTRATION') ) {
         if ( $user_id != "" ) {
             $_SESSION['registraton_id']   = $user_id;
             $_SESSION['registraton_pass'] = $user_pass;
-            if($usersObj->sendActivationEmailToUser($user_id)) {
+            //if($usersObj->sendActivationEmailToUser($user_id)) {
                 redirectURL("register2.php");
-            }
+            //}
         } else {
             redirectURL("register.php");
         }
@@ -203,7 +202,18 @@ for($counter = $endYear; $counter >= $startYear; $counter--) {
         <div class="main">
             <div class="container">
                 <div class="register">
-                    <form name="frmUserRegister" id="frmUserRegister" method="post" action="registration">
+                    <?php if( !empty( $form_array ) ) : ?>
+                        <div class="alert alert-danger fade in">
+                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                            <strong>Error!</strong> <br>
+                            <ul class="list-unstyled">
+                                <?php foreach( $form_array as $error ) { ?>
+                                <li><?php echo $error; ?></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                    <form name="frmUserRegister" id="frmUserRegister" method="post" action="register.php">
                     <input type="hidden" name="securityKey" id="securityKey" value="<?php echo md5(NEWREGISTRATION);?>" />
                     <input type="hidden" name="user_ip" id="user_ip_id" value="<?php echo $_SERVER['REMOTE_ADDR']?>" />
                     <input type="hidden" name="is_manager" id="is_manager_id" value="<?php if(isset($_POST['is_manager']) && $_POST['is_manager'] == "1") { echo "1";} else {echo "0";}?>" />

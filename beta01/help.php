@@ -15,21 +15,25 @@
 
 /*
 |--------------------------------------------------------------------------
-| Frontend manager restaurants page
+| Frontend cms page 
 |--------------------------------------------------------------------------
 |
-| It is manager restaurants page
+| It is cms page 
 |
 */
 
-require_once __DIR__ . '/includes/manager-top.php';
+require_once __DIR__ . '/includes/application-top.php';
+require_once SITE_CLASSES_PATH . 'class.Users.php';
+require_once SITE_CLASSES_PATH . 'class.CMS.php';
+
+$usersObj       = new Users();
+$cmsObj         = new Cms();
 // Page details
 $page_nofound = true;
-$page_name    = $_GET['name'];
+$page_name    = 'help';
 $page_name    = str_replace("/", "_", str_replace("-", " ", $page_name));
-$pageInfo     = $cmsObj->fun_getPageInfoByName($page_name);
-
-if(is_array($pageInfo) && !empty($pageInfo)) {
+$pageInfo     = $cmsObj->fun_getPageInfoByName( $page_name );
+if( is_array($pageInfo) && ! empty($pageInfo) ) {
     $page_id            = $pageInfo['page_id'];
     $pageInfo           = $cmsObj->fun_getPageInfo($page_id);
     $page_title         = fun_db_output($pageInfo['page_title']);
@@ -40,56 +44,6 @@ if(is_array($pageInfo) && !empty($pageInfo)) {
     $seo_description    = ($pageInfo['page_seo_discription']!="")?$pageInfo['page_seo_discription']:$seo_description;
     $page_nofound       = false;
 }
-//form submission
-$form_array = array();
-$errorMsg 	= "no";
-
-// Edit Option Category submit : Start here 
-if($_POST['securityKey']==md5("EDITORDER")){	
-    if(trim($_POST['delivery_fname']) == '') {
-        $form_array['delivery_fname_error'] = 'First name required';
-        $errorMsg = 'yes';
-    }
-    if(trim($_POST['delivery_address1']) == '') {
-        $form_array['delivery_address1_error'] = 'Delivery address required';
-        $errorMsg = 'yes';
-    }
-    if(trim($_POST['dtype']) == '') {
-        $form_array['dtype_error'] = 'Delivery type required';
-        $errorMsg = 'yes';
-    }
-    if($errorMsg == 'no' && $errorMsg != 'yes') {
-        $order_id          = $_POST['order_id'];
-        $user_id           = $_POST['user_id'];
-        $delivery_fname    = $_POST['delivery_fname'];
-        $delivery_lname    = $_POST['delivery_lname'];
-        $delivery_address1 = $_POST['delivery_address1'];
-        $delivery_address2 = $_POST['delivery_address2'];
-        $delivery_city     = $_POST['delivery_city'];
-        $delivery_state    = $_POST['delivery_state'];
-        $delivery_country  = $_POST['delivery_country'];
-        $delivery_zip      = $_POST['delivery_zip'];
-        $delivery_phone    = $_POST['delivery_phone'];
-        $dtype             = $_POST['dtype'];
-        $schedule          = $_POST['schedule'];
-        $order_comments    = $_POST['order_comments'];
-        $payment_method    = $_POST['payment_method'];
-        $cc_type           = $_POST['cc_type'];
-        $cc_owner          = $_POST['cc_owner'];
-        $cc_number         = $_POST['cc_number'];
-        $cc_expires        = $_POST['cc_expires'];
-        $final_price       = $_POST['final_price'];
-        $currency_id       = $_POST['currency_id'];
-        $orders_status     = $_POST['orders_status'];
-        // Edit Order
-        $restObj->fun_editOrder($order_id, $user_id, $delivery_fname, $delivery_lname, $delivery_address1, $delivery_address2, $delivery_city, $delivery_state, $delivery_country, $delivery_zip, $delivery_phone, $dtype, $schedule, $order_comments, $payment_method, $cc_type, $cc_owner, $cc_number, $cc_expires, $final_price, $currency_id, $orders_status);
-        $redirect_url = "manager-orders.php?sec=edit&order_id=".$order_id;
-        redirectURL($redirect_url);
-    } else {
-        $form_array['error_msg'] = "Please submit your form again!";
-    }
-}
-// Edit Option Category submit : End here 
 ?>
 <!DOCTYPE html>
 <html>
@@ -137,16 +91,21 @@ if($_POST['securityKey']==md5("EDITORDER")){
     <?php require_once SITE_INCLUDES_PATH . 'header.php'; ?>
     </div>
     <!-- content -->
-    <div class="content user-section-page">
-        <div class="container">
-            <div class="user-page">
-                <div class="col-md-4 wow fadeInRight" data-wow-delay="0.4s">
-                    <?php require_once SITE_INCLUDES_PATH . 'manager-left-links.php'; ?>
+    <div class="content contact-section-page">
+        <div class="contact-head">
+            <div class="container">
+                <h3><?php echo $page_content_title;?></h3>
+                <p>Home/<?php echo $page_content_title;?></p>
+            </div>
+        </div>
+        <div class="contact_top">
+            <div class="container">
+                <div class="col-md-8 contact_left wow fadeInRight" data-wow-delay="0.4s">
+                    <?php echo $page_discription;?>
                 </div>
-                <div class="col-md-8 wow fadeInLeft" data-wow-delay="0.4s">
-                    <?php require_once SITE_INCLUDES_PATH . 'manager-order.php'; ?>
+                <div class="col-md-4 company-right wow fadeInLeft" data-wow-delay="0.4s">
+                    <h4>Advertisement</h4>
                 </div>
-                <div class="clearfix"> </div>
             </div>
         </div>
     </div>
